@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
+import UploadPage from "./pages/UploadPage";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import ViewSummary from "./pages/ViewSummary";
+import Sheets from "./pages/Sheets";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <>
-      <div className="text-green-900 underline text-2xl">Hello world</div>
-    </>
+    <Routes>
+      <Route path="/" Component={Login} />
+      <Route path="/signup" Component={Signup} />
+      <Route path="/upload" Component={UploadPage} />
+      <Route path="/:id/summary" Component={ViewSummary} />
+      <Route path="/:id/sheets" Component={Sheets} />
+    </Routes>
   );
-}
+};
 
 export default App;
