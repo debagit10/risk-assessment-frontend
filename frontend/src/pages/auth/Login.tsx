@@ -6,6 +6,7 @@ import API_URL from "../../Env";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 interface UserData {
   email: string;
@@ -13,6 +14,7 @@ interface UserData {
 }
 
 const Login = () => {
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<UserData>({
@@ -47,11 +49,14 @@ const Login = () => {
 
       if (response.data.success) {
         setLoading(false);
+
         toast.success(response.data.success, {
           position: "top-center",
           autoClose: 1500,
           onClose: () => navigate("/upload"),
         });
+
+        setCookie("userID", response.data.user.id);
       } else {
         setLoading(false);
         toast.success(response.data.error, {

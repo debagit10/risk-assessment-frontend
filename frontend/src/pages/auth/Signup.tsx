@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../Env";
+import { useCookies } from "react-cookie";
 
 interface UserData {
   email: string;
@@ -12,6 +13,7 @@ interface UserData {
 }
 
 const Signup = () => {
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<UserData>({
@@ -51,6 +53,7 @@ const Signup = () => {
           autoClose: 1500,
           onClose: () => navigate("/upload"),
         });
+        setCookie("userID", response.data.user.id);
       } else {
         setLoading(false);
         toast.success(response.data.error, {
