@@ -1,15 +1,4 @@
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TextField,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,7 +10,6 @@ import { useCookies } from "react-cookie";
 
 const UploadDoc = () => {
   const [jsonResult, setJsonResult] = useState([] || null);
-  const [sheetName, setSheetName] = useState("");
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -42,7 +30,6 @@ const UploadDoc = () => {
 
         if (workbook.SheetNames.includes(sheetName)) {
           const worksheet = workbook.Sheets[sheetName];
-          setSheetName(sheetName);
 
           const json = XLSX.utils.sheet_to_json(worksheet);
 
@@ -50,7 +37,12 @@ const UploadDoc = () => {
             (row: any) => row.__EMPTY === "Access Control"
           );
 
-          setJsonResult(json.slice(startIndex));
+          setJsonResult(
+            json.slice(startIndex).map((row: any) => ({
+              weakness: row.__EMPTY_1,
+              risk_level: row.__EMPTY_8,
+            }))
+          );
         } else {
           console.error(
             `Sheet named "${sheetName}" not found in the workbook.`
@@ -65,7 +57,7 @@ const UploadDoc = () => {
 
   const submit = async () => {
     setLoading(true);
-    if (!sheetName) {
+    if (!fileName) {
       setLoading(false);
       toast.warning("Please select a file", {
         position: "top-center",
@@ -74,9 +66,13 @@ const UploadDoc = () => {
       return;
     }
 
-    const sheetData = { userID: cookies.userID, sheet_name: sheetName };
+    const sheetData = {
+      userID: cookies.userID,
+      sheet_name: fileName,
+      risks: jsonResult,
+    };
 
-    const config = { headers: { Content_type: "application/json" } };
+    const config = { headers: { "Content-type": "application/json" } };
     try {
       const response = await axios.post(
         `${API_URL.API_URL}/api/sheet/add`,
@@ -85,9 +81,11 @@ const UploadDoc = () => {
       );
 
       if (response.data.success) {
+        setLoading(false);
         toast.success(response.data.success, {
           position: "top-center",
           autoClose: 1500,
+          onClose: () => navigate(`/${response.data.sheetID}/summary`),
         });
       }
     } catch (error) {
@@ -116,51 +114,6 @@ const UploadDoc = () => {
       >
         {loading ? "Uploading..." : "Upload"}
       </Button>
-      {jsonResult.length > 0 && (
-        <>
-          <Typography>{fileName}</Typography>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>S/N</TableCell>
-                  <TableCell>Item Identifier</TableCell>
-                  <TableCell>Weakness</TableCell>
-                  <TableCell>Security Control</TableCell>
-                  <TableCell>Resources Required</TableCell>
-                  <TableCell>Risk Level</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {jsonResult.slice(2).map((row, index) => (
-                  <TableRow
-                    key={index + 2}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{row.__EMPTY}</TableCell>
-                    <TableCell>{row.__EMPTY_1}</TableCell>
-                    <TableCell>{row.__EMPTY_2}</TableCell>
-                    <TableCell>{row.__EMPTY_3}</TableCell>
-                    <TableCell
-                      sx={{
-                        backgroundColor:
-                          row.__EMPTY_8 === "Low"
-                            ? "green"
-                            : row.__EMPTY_8 === "Med"
-                            ? "orange"
-                            : "red",
-                      }}
-                    >
-                      {row.__EMPTY_8}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
     </div>
   );
 };
