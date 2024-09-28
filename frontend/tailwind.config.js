@@ -2,7 +2,11 @@
 export default {
   content: ["./src/**/*.{html,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "custom-bg": "url('/src/images/bg_image.jpg')",
+      },
+    },
   },
   plugins: [],
 };
