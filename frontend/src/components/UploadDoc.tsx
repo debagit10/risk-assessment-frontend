@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const UploadDoc = () => {
-  const [jsonResult, setJsonResult] = useState([] || null);
+  const [jsonResult, setJsonResult] = useState([]);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies();
