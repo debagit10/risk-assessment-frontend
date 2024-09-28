@@ -43,8 +43,8 @@ const Sheets = () => {
 
   return (
     <Nav_Container>
-      <div className="mt-24 w-full px-10 py-5">
-        <TableContainer component={Paper}>
+      <div className="mt-24 w-full px-10 py-5 m-10 backdrop-blur-lg bg-white/10 bg-opacity-50 border border-white/30 shadow-xl rounded-lg text-gray-200">
+        <TableContainer>
           <div className="p-3 underline">
             <Typography variant="h6" fontWeight={500}>
               My Sheets

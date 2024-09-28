@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -100,20 +100,22 @@ const UploadDoc = () => {
   return (
     <div>
       <ToastContainer />
-      <TextField
-        type="file"
-        onChange={handleFileUpload}
-        placeholder="Upload Document Here"
-      />
+      <Stack spacing={1} sx={{ marginBottom: "7px" }}>
+        <TextField
+          type="file"
+          onChange={handleFileUpload}
+          placeholder="Upload Document Here"
+        />
 
-      <Button
-        variant="contained"
-        onClick={submit}
-        disabled={loading}
-        sx={{ textTransform: "capitalize" }}
-      >
-        {loading ? "Uploading..." : "Upload"}
-      </Button>
+        <Button
+          variant="contained"
+          onClick={submit}
+          disabled={loading}
+          sx={{ textTransform: "capitalize" }}
+        >
+          {loading ? "Uploading..." : "Upload"}
+        </Button>
+      </Stack>
     </div>
   );
 };

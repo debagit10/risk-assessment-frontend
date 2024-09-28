@@ -74,6 +74,14 @@ const EditRisk = ({ riskID, cur_risklevel }) => {
         variant="outlined"
         sx={{
           textTransform: "capitalize",
+          borderColor: "white",
+          color: "white",
+
+          "&:hover": {
+            backgroundColor: "white",
+            color: "black",
+            borderColor: "white",
+          },
         }}
       >
         Edit
