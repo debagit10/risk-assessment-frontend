@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import logo from "../images/logo.png";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import { FiUpload } from "react-icons/fi";
 import { BiSpreadsheet } from "react-icons/bi";
 import SignOut from "../modals/SignOut";
 
@@ -36,9 +36,9 @@ const Nav_Container: React.FC<ContainerProps> = ({ children }) => {
               height: "3rem",
             }}
             disableElevation
-            startIcon={<IoMdAddCircleOutline />}
+            startIcon={<FiUpload />}
           >
-            New Upload
+            Upload
           </Button>
           <Button
             onClick={() => navigate(`/${cookies.userID}/sheets`)}
