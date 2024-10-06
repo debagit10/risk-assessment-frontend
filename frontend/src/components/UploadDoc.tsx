@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import API_URL from "../Env";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { FiUpload } from "react-icons/fi";
 
 const UploadDoc = () => {
   const [jsonResult, setJsonResult] = useState([]);
@@ -112,6 +113,7 @@ const UploadDoc = () => {
           onClick={submit}
           disabled={loading}
           sx={{ textTransform: "capitalize" }}
+          startIcon={<FiUpload />}
         >
           {loading ? "Uploading..." : "Upload"}
         </Button>

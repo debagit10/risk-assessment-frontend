@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../Env";
 import { useCookies } from "react-cookie";
+import logo from "../../images/logo.png";
 
 interface UserData {
   email: string;
@@ -78,12 +79,10 @@ const Signup = () => {
         background: "linear-gradient(135deg, #34495e 0%, #bdc3c7 100%)",
       }}
     >
-      <div className="p-10">
-        <Typography variant="h4" fontWeight={700} color="white">
-          Risk Summary App
-        </Typography>
+      <div className="p-5 flex justify-center">
+        <img src={logo} alt="logo" className="w-64 h-52" />
       </div>
-      <div className="flex justify-center  my-10 ">
+      <div className="flex justify-center ">
         <ToastContainer />
         <div className="backdrop-blur-lg bg-white/10 bg-opacity-50 border border-white/30 shadow-xl rounded-lg p-6 w-96 text-gray-200">
           <Typography variant="h6" fontWeight={700} sx={{ marginY: "5%" }}>

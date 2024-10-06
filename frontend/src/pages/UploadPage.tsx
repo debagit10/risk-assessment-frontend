@@ -7,7 +7,7 @@ import upload from "../images/upload.png";
 const UploadPage = () => {
   return (
     <Nav_Container>
-      <div className="mt-24 px-10 backdrop-blur-lg bg-white/10 bg-opacity-50 border border-white/30 shadow-xl rounded-lg text-gray-200 ">
+      <div className="mt-32 px-10 backdrop-blur-lg bg-white/10 bg-opacity-50 border border-white/30 shadow-xl rounded-lg text-gray-200 ">
         <div className="underline flex justify-center">
           <Typography variant="h6" fontWeight={500}>
             Upload SpreadSheet Here:
