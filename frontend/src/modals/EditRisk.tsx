@@ -117,6 +117,12 @@ const EditRisk = ({ riskID, cur_risklevel }) => {
                 label="High"
                 onClick={() => setRiskLevel("High")}
               />
+              <FormControlLabel
+                value="No risk"
+                control={<Radio />}
+                label="No risk"
+                onClick={() => setRiskLevel("No risk")}
+              />
             </RadioGroup>
           </FormControl>
         </DialogContent>

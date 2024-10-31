@@ -62,6 +62,28 @@ const ViewSummary = () => {
     sheet();
   }, []);
 
+  const getRiskPoints = (riskLevel: any) => {
+    switch (riskLevel) {
+      case "Low":
+        return 7;
+      case "Med":
+        return 5;
+      case "High":
+        return 1;
+      default:
+        return 10;
+    }
+  };
+
+  const totalPoints = risks.reduce(
+    (acc, row) => acc + getRiskPoints(row.risk_level),
+    0
+  );
+
+  const posssiblePoints = risks.length * 10;
+
+  const currentScore = Math.round((totalPoints / posssiblePoints) * 100);
+
   return (
     <Nav_Container>
       <div className="mt-32 w-full px-10 m-10 backdrop-blur-lg bg-white/10 bg-opacity-50 border border-white/30 shadow-xl rounded-lg text-gray-200">
@@ -72,17 +94,29 @@ const ViewSummary = () => {
         </div>
 
         <Stack spacing={0.01}>
-          {fileDetails && (
-            <>
-              <Typography variant="h6" fontWeight={500}>
-                File Name: {fileDetails.sheet_name}
-              </Typography>
-              <Typography variant="h6" fontWeight={500}>
-                Upload Date: <DayAndTime date={fileDetails.created_at} />
-              </Typography>
-              <DeleteSheet sheetID={fileDetails.id} />
-            </>
-          )}
+          <Stack direction="row" spacing={5}>
+            <div>
+              {fileDetails && (
+                <>
+                  <Typography variant="h6" fontWeight={500}>
+                    File Name: {fileDetails.sheet_name}
+                  </Typography>
+                  <Typography variant="h6" fontWeight={500}>
+                    Upload Date: <DayAndTime date={fileDetails.created_at} />
+                  </Typography>
+                  <DeleteSheet sheetID={fileDetails.id} />
+                </>
+              )}
+            </div>
+
+            <div>
+              <Stack>
+                <Typography>Total points: {totalPoints}</Typography>
+                <Typography>Possible points: {posssiblePoints}</Typography>
+                <Typography>Score: {currentScore}%</Typography>
+              </Stack>
+            </div>
+          </Stack>
 
           {risks?.length > 0 && (
             <div className="py-5">
@@ -93,6 +127,7 @@ const ViewSummary = () => {
                       <TableCell>S/N</TableCell>
                       <TableCell>Weakness</TableCell>
                       <TableCell>Risk Level</TableCell>
+                      <TableCell>Point</TableCell>
                       <TableCell />
                     </TableRow>
                   </TableHead>
@@ -113,10 +148,21 @@ const ViewSummary = () => {
                                 ? "green"
                                 : row.risk_level === "Med"
                                 ? "orange"
-                                : "red",
+                                : row.risk_level === "High"
+                                ? "red"
+                                : "transparent",
                           }}
                         >
                           {row.risk_level === "Med" ? "Medium" : row.risk_level}
+                        </TableCell>
+                        <TableCell>
+                          {row.risk_level === "Low"
+                            ? "7"
+                            : row.risk_level === "Med"
+                            ? "5"
+                            : row.risk_level === "High"
+                            ? "1"
+                            : "10"}
                         </TableCell>
                         <TableCell>
                           <EditRisk
