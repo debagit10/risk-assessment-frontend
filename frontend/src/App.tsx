@@ -6,12 +6,14 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ViewSummary from "./pages/ViewSummary";
 import Sheets from "./pages/Sheets";
+import Password from "./pages/auth/Password";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" Component={Login} />
       <Route path="/signup" Component={Signup} />
+      <Route path="/recover-password" Component={Password} />
       <Route path="/upload" Component={UploadPage} />
       <Route path="/:id/summary" Component={ViewSummary} />
       <Route path="/:id/sheets" Component={Sheets} />

@@ -1,26 +1,23 @@
-import { Button, Paper, TextField, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
+import { Typography, Stack, TextField, Button } from "@mui/material";
 import React, { useState } from "react";
-import axios from "axios";
-import API_URL from "../../Env";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import logo from "../../images/logo.png";
+import axios from "axios";
+import API_URL from "../../Env";
 
 interface UserData {
   email: string;
-  password: string;
 }
 
-const Login = () => {
+const Password = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     email: "",
-    password: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,36 +25,33 @@ const Login = () => {
     setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const config = { headers: { "Content-type": "application/json" } };
-
   const submit = async () => {
     setLoading(true);
-    if (!userData.email || !userData.password) {
+    if (!userData.email) {
       setLoading(false);
-      toast.warning("Please fill all fields", {
+      toast.warning("Please input your email", {
         position: "top-center",
         autoClose: 1500,
       });
       return;
     }
 
+    const config = { headers: { "Content-type": "application/json" } };
+
     try {
       const response = await axios.post(
-        `${API_URL.API_URL}/api/user/login`,
+        `${API_URL.API_URL}/newPassword`,
         userData,
         config
       );
-
       if (response.data.success) {
         setLoading(false);
 
         toast.success(response.data.success, {
           position: "top-center",
           autoClose: 1500,
-          onClose: () => navigate("/upload"),
+          onClose: () => navigate("/"),
         });
-
-        setCookie("userID", response.data.user.id);
       } else {
         setLoading(false);
         toast.success(response.data.error, {
@@ -66,6 +60,7 @@ const Login = () => {
         });
       }
     } catch (error) {
+      console.log(error);
       setLoading(false);
       toast.error(error.response.data.error, {
         position: "top-center",
@@ -73,7 +68,6 @@ const Login = () => {
       });
     }
   };
-
   return (
     <div
       className="min-h-screen"
@@ -88,7 +82,7 @@ const Login = () => {
         <ToastContainer />
         <div className="backdrop-blur-lg bg-white/10 bg-opacity-50 border border-white/30 shadow-xl rounded-lg p-6 w-96 text-gray-200">
           <Typography variant="h6" fontWeight={700} sx={{ marginY: "5%" }}>
-            Login
+            Password recovery
           </Typography>
           <Stack spacing={2}>
             <TextField
@@ -98,13 +92,6 @@ const Login = () => {
               value={userData.email}
               onChange={handleChange}
             />
-            <TextField
-              type="password"
-              label="Password"
-              name="password"
-              value={userData.password}
-              onChange={handleChange}
-            />
 
             <Button
               variant="contained"
@@ -112,28 +99,8 @@ const Login = () => {
               disabled={loading}
               sx={{ textTransform: "capitalize" }}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Loading..." : "Submit"}
             </Button>
-
-            <Typography variant="body2">
-              Don't have an account?{" "}
-              <span
-                onClick={() => navigate("/signup")}
-                className="underline cursor-pointer"
-              >
-                Sign up
-              </span>
-            </Typography>
-
-            <Typography variant="body2">
-              Forgot password?{" "}
-              <span
-                onClick={() => navigate("/recover-password")}
-                className="underline cursor-pointer"
-              >
-                Recover
-              </span>
-            </Typography>
           </Stack>
         </div>
       </div>
@@ -141,4 +108,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Password;
