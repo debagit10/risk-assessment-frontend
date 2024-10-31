@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import logo from "../images/logo.png";
 import { FiUpload } from "react-icons/fi";
 import { BiSpreadsheet } from "react-icons/bi";
-import SignOut from "../modals/SignOut";
+import { IoIosSettings } from "react-icons/io";
 
 interface ContainerProps {
   children: ReactNode;
@@ -49,7 +49,16 @@ const Nav_Container: React.FC<ContainerProps> = ({ children }) => {
           >
             My Sheets
           </Button>
-          <SignOut />
+
+          <Button
+            onClick={() => navigate(`/${cookies.userID}/settings`)}
+            variant="outlined"
+            sx={{ textTransform: "capitalize", height: "3rem" }}
+            disableElevation
+            startIcon={<IoIosSettings />}
+          >
+            Settings
+          </Button>
         </Stack>
       </div>
 

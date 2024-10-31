@@ -38,7 +38,7 @@ const SignOut = () => {
   return (
     <div>
       <Button
-        variant="outlined"
+        variant="contained"
         sx={{ textTransform: "capitalize", height: "3rem" }}
         disableElevation
         startIcon={<PiSignOutBold />}

@@ -7,6 +7,7 @@ import Signup from "./pages/auth/Signup";
 import ViewSummary from "./pages/ViewSummary";
 import Sheets from "./pages/Sheets";
 import Password from "./pages/auth/Password";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/upload" Component={UploadPage} />
       <Route path="/:id/summary" Component={ViewSummary} />
       <Route path="/:id/sheets" Component={Sheets} />
+      <Route path="/:id/settings" Component={Settings} />
     </Routes>
   );
 };
