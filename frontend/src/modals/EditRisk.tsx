@@ -52,7 +52,6 @@ const EditRisk = ({ riskID, cur_risklevel }) => {
           autoClose: 1500,
           onClose: () => {
             handleClose();
-            window.location.reload();
           },
         });
       }
@@ -68,7 +67,6 @@ const EditRisk = ({ riskID, cur_risklevel }) => {
 
   return (
     <div>
-      <ToastContainer />
       <Button
         onClick={handleClick}
         variant="outlined"
@@ -88,6 +86,7 @@ const EditRisk = ({ riskID, cur_risklevel }) => {
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
+        <ToastContainer />
         <DialogTitle>Edit risk level</DialogTitle>
         <DialogContent>
           <FormControl>

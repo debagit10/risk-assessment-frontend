@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import DeleteSheet from "../modals/DeleteSheet";
 import EditRisk from "../modals/EditRisk";
 import DayAndTime from "../utils/DayAndTime";
+import Dial from "../utils/Dial";
 
 interface FileData {
   id: string;
@@ -75,14 +76,16 @@ const ViewSummary = () => {
     }
   };
 
-  const totalPoints = risks.reduce(
+  const totalPoints: number = risks.reduce(
     (acc, row) => acc + getRiskPoints(row.risk_level),
     0
   );
 
-  const posssiblePoints = risks.length * 10;
+  const posssiblePoints: number = risks.length * 10;
 
-  const currentScore = Math.round((totalPoints / posssiblePoints) * 100);
+  const currentScore: number = Math.round(
+    (totalPoints / posssiblePoints) * 100
+  );
 
   return (
     <Nav_Container>
@@ -115,6 +118,10 @@ const ViewSummary = () => {
                 <Typography>Possible points: {posssiblePoints}</Typography>
                 <Typography>Score: {currentScore}%</Typography>
               </Stack>
+            </div>
+
+            <div>
+              <Dial value={currentScore} />
             </div>
           </Stack>
 
